@@ -35,18 +35,19 @@ app.post('/register', async (request, response) => {
   const selectUserQuery = `SELECT * FROM user WHERE username='${username}';`;
   const dbUser = await db.get(selectUserQuery)
   if (dbUser === undefined) {
-                const createUserQuery = `INSERT INTO user (username, name, password, gender, location) 
-            VALUES (${username},${name},${hashedPassword},${gender},${location});`
+      const createUserQuery = `INSERT INTO user (username, name, password, gender, location) 
+            VALUES ('${username}','${name}','${hashedPassword}','${gender}','${location}');`
       if (password.length < 5) {
       response.status = 400
       response.send('Password is too short')
-  }
-      else{
+      }
+        else{
         await db.run(createUserQuery)
         response.status = 200
         response.send('User created successfully')
           }
-  } else {
+  }
+ else {
     response.status = 400
     response.send('User already exists')
   }
@@ -92,7 +93,7 @@ app.post('/change-password', async (request, response) => {
       }
       else{
         const hashedPassword=await bcrypt.hash(newPassword,10);
-            const updatePasswordQuery=`UPDATE user SET password=${hashedPassword} WHERE username='${username}';`;
+            const updatePasswordQuery=`UPDATE user SET password='${hashedPassword}' WHERE username='${username}';`;
             await db.run(updatePasswordQuery);
             response.send('Password updated');
             response.status = 200; 
