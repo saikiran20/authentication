@@ -1,0 +1,2 @@
+send request
+POST http://localhost:3000/register
